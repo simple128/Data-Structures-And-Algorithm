@@ -2,6 +2,16 @@ package wy.algorithm;
 
 import java.util.Arrays;
 
+/**
+ *
+ * 10   5   1   3   9   7   6   8   4
+ * 4    5   1   3   9   7   6   8   10
+ * 1    5   4   3   9   7   6   8   10
+ * 1    3   4   5   9   7   6   8   10
+ * 1    3   4   5   6   7   8   9   10
+ *
+ *
+ */
 public class Sort {
 
     public static int[] selectSort(int[] nums) {
@@ -34,15 +44,15 @@ public class Sort {
     }
 
     public static int[] shellSort(int[] nums) {
-        int index = nums.length;
+        int gap = nums.length;
         int temp = 0;
-        while ((index /= 2) > 0) {
-            for (int i = index; i < nums.length; i++) {
-                for (int j = i - index; j >= 0 ; j -= index) {
-                    if (nums[j] > nums[j + index]) {
+        while ((gap /= 2) > 0) {
+            for (int i = gap; i < nums.length; i++) {
+                for (int j = i - gap; j >= 0 ; j -= gap) {
+                    if (nums[j] > nums[j + gap]) {
                         temp = nums[j];
-                        nums[j] = nums[j + index];
-                        nums[j + index] = temp;
+                        nums[j] = nums[j + gap];
+                        nums[j + gap] = temp;
                     }
                 }
             }
@@ -52,7 +62,7 @@ public class Sort {
 
 
     public static void main(String[] args) {
-        int[] nums = new int[]{12, 23, 56, 8, 5, 4, 1};
+        int[] nums = new int[]{12, 23, 56, 8, 5, 4, 1, 16, 22 , 9};
         System.out.println(Arrays.toString(shellSort(nums)));
     }
 }
