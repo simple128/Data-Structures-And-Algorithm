@@ -13,6 +13,11 @@ import java.util.Date;
  */
 public class Sort {
 
+    /**
+     * 选择排序
+     * @param nums
+     * @return
+     */
     public static int[] selectSort(int[] nums) {
         for (int i = 0; i < nums.length - 1; i++) {
             int min = nums[i];
@@ -29,6 +34,11 @@ public class Sort {
         return nums;
     }
 
+    /**
+     * 插入排序
+     * @param nums
+     * @return
+     */
     public static int[] insertSort(int[] nums) {
         for (int i = 1; i < nums.length; i++) {
             int insertVal = nums[i];
@@ -42,7 +52,11 @@ public class Sort {
         return nums;
     }
 
-
+    /**
+     * 希尔排序-交换法
+     * @param nums
+     * @return
+     */
     public static int[] shellSort(int[] nums) {
         int gap = nums.length;
         int temp = 0;
