@@ -41,16 +41,60 @@ public class Search {
         }
     }
 
+    public static int fibonacciSearch(int nums[], int key) {
+        int low = 0;
+        int high = nums.length - 1;
+        int k = 0;
+        int mid = 0;
+        int[] fib = fib();
+        //获得大于等于数组长度的斐波那契数
+        while (fib[k] < high) {
+            k++;
+        }
+        //创建中间数组，并填充超过源数组长度的位置
+        int[] temp = Arrays.copyOf(nums,fib[k]);
+        for (int i = nums.length; i < fib[k]; i++) {
+            temp[i] = nums[high];
+        }
+        /*
+         * 循环查找目标值，
+         * 若key > nums[mid]，继续在数组后半段查找
+         * 若key < nums[mid]，继续在数组前半段查找
+         */
+        while (low <= high) {
+            mid = low + fib[k - 1] - 1;
+            if (key < temp[mid]) {
+                high = mid - 1;
+                k--;
+            } else if (key > temp[mid]) {
+                low = mid + 1;
+                k-=2;
+            } else {
+                if (mid <= high) {
+                    return mid; //找到的下标在源数组长度内
+                } else {
+                    return high; //找到的下标超过了源数组长度，返回源数组最后一个下标
+                }
+            }
+        }
+        return -1;
+    }
+
+    public static int[] fib() {
+        int[] fib = new int[20];
+        fib[0] = 1;
+        fib[1] = 1;
+        for (int i = 2; i < fib.length; i++) {
+            fib[i] = fib[i - 1] + fib[i - 2];
+        }
+        return fib;
+    }
+
 
     public static void main(String[] args) {
-        int[] nums = new int[100];
-        for (int i = 0; i < 100; i++) {
-            nums[i] = (int)(Math.random()*1000);
-        }
-        Sort.bucketSort(nums);
+        int[] nums = new int[]{1,3,5,7,9,55,123,666,779};
         System.out.println(Arrays.toString(nums));
-        List<Integer> list = insertSearch(nums, 0, nums.length - 1, 22);
-        System.out.println(list);
+        System.out.println(fibonacciSearch(nums, 666));
     }
 
 }
