@@ -9,6 +9,14 @@ import java.util.List;
  */
 public class Search {
 
+    /**
+     * 差值查找算法
+     *
+     * 关键点：mid = left + (right - left) * (findVal - nums[left]) / (nums[right] - nums[left]);
+     *
+     * 由 mid = low + (high - low) / 2 ，将系数 1/2 替换为 (key - nums[low] / nums[high] - nums[low])得到
+     *
+     */
     public static List<Integer> insertSearch(int[] nums, int left, int right, int findVal) {
         System.out.println("xxxxxxxxxxxxxxxx");
         if (left > right || findVal < nums[0] || findVal > nums[nums.length - 1]) {
@@ -41,6 +49,10 @@ public class Search {
         }
     }
 
+    /**
+     * 斐波那契查找算法
+     *
+     */
     public static int fibonacciSearch(int nums[], int key) {
         int low = 0;
         int high = nums.length - 1;
