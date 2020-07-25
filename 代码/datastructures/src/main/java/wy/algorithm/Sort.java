@@ -15,6 +15,7 @@ public class Sort {
 
     /**
      * 选择排序
+     *
      * @param nums
      * @return
      */
@@ -36,6 +37,7 @@ public class Sort {
 
     /**
      * 插入排序
+     *
      * @param nums
      * @return
      */
@@ -54,6 +56,7 @@ public class Sort {
 
     /**
      * 希尔排序-交换法
+     *
      * @param nums
      * @return
      */
@@ -157,13 +160,13 @@ public class Sort {
 
     /**
      * 基数排序
-     *
+     * <p>
      * 针对有负数或者0的情况，解决方法：
      * 有负数：
-     *      1、找到数组的最小值，将所有元素加上（最小值的绝对值 + 1）
-     *      2、多申请一个数组，将用于存放负数，最后合并正数数组和负数数组
+     * 1、找到数组的最小值，将所有元素加上（最小值的绝对值 + 1）
+     * 2、多申请一个数组，将用于存放负数，最后合并正数数组和负数数组
      * 有0：所有数加 1
-     *
+     * <p>
      * 注意：上面解决方案要考虑整数的溢出
      *
      * @param nums
@@ -182,7 +185,7 @@ public class Sort {
         for (int i = 0; i < loopCount; i++) {
             int t = 0;
             for (int j = 0; j < nums.length; j++) {
-                int digitOfElement = nums[j] / (int)(Math.pow(10, i)) % 10;
+                int digitOfElement = nums[j] / (int) (Math.pow(10, i)) % 10;
                 bucket[digitOfElement][bucketEleCount[digitOfElement]] = nums[j];
                 bucketEleCount[digitOfElement]++;
             }
@@ -195,13 +198,57 @@ public class Sort {
         }
     }
 
+    /**
+     * 堆排序
+     * @param nums
+     */
+    public static void heapSort(int[] nums) {
+        int temp = 0;
+        //从最后一个非叶子节点开始调整为大顶堆
+        for (int i = nums.length / 2 - 1; i >= 0; i--) {
+            adjustHeap(nums, i, nums.length);
+        }
+        //将大顶堆的最大值放到数组的最后一位j，再对数组的前j-1个数进行调整
+        for (int j = nums.length - 1; j > 0; j--) {
+            temp = nums[0];
+            nums[0] = nums[j];
+            nums[j] = temp;
+            adjustHeap(nums, 0, j);
+        }
+
+    }
+
+    /**
+     * 将数组中以i为顶，长度为的堆调整为大顶堆
+     *
+     * @param nums
+     * @param i
+     * @param length
+     */
+    public static void adjustHeap(int[] nums, int i, int length) {
+        int temp = nums[i];
+        for (int k = i * 2 + 1; k < length; k = k * 2 + 1) {
+            if (k + 1 < length && nums[k] < nums[k + 1]) {
+                k++;
+            }
+            if (nums[k] > temp) {
+                nums[i] = nums[k];
+                i = k;
+            } else {
+                break;
+            }
+        }
+        nums[i] = temp;
+    }
+
     public static void main(String[] args) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //getTestArray(8000000);
         int[] nums = new int[]{12, -23, 56, 8, 5, 4, 1, -16, 22, 9, 0};
         //int[] temp = new int[nums.length];
         System.out.println("排序前：" + sdf.format(new Date()));
-        bucketSort(nums);
+        System.out.println(Arrays.toString(nums));
+        heapSort(nums);
         System.out.println("排序后：" + sdf.format(new Date()));
         System.out.println(Arrays.toString(nums));
     }
