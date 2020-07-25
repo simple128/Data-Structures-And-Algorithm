@@ -227,6 +227,7 @@ public class Sort {
      */
     public static void adjustHeap(int[] nums, int i, int length) {
         int temp = nums[i];
+        //将指定节点与其左右子节点比较，与最大的子节点交换位置，再继续从被交换为止的子节点循环与其子节点比较
         for (int k = i * 2 + 1; k < length; k = k * 2 + 1) {
             if (k + 1 < length && nums[k] < nums[k + 1]) {
                 k++;
