@@ -11,6 +11,11 @@ public class AVLTreeDemo {
         for (int i = 1; i < 11; i++) {
             root = demo.put(root, i);
         }
+        System.out.println("插入之后：");
+        root.infixOrder();
+        root = demo.remove(root, 0);
+        root = demo.remove(root, 2);
+        System.out.println("删除之后：");
         root.infixOrder();
     }
 
@@ -32,19 +37,57 @@ public class AVLTreeDemo {
             root.value = key;
         }
         updateHeight(root);
-        return rebalance(root, key);
+        return rebalance(root);
     }
 
-    public TreeNode rebalance(TreeNode node, int key) {
+    public TreeNode remove(TreeNode root, int key) {
+        if (root == null) return null;
+
+        if (root.value > key) {
+            root.left = remove(root.left, key);
+        } else if (root.value < key) {
+            root.right = remove(root.right, key);
+        } else {
+            if (root.left ==null && root.right == null) {
+                return null;
+            } else if (root.right != null) {
+                root.value = predecessor(root);
+                root.right = remove(root.right, root.value);
+            } else {
+                root.value = successor(root);
+                root.left = remove(root.left, root.value);
+            }
+        }
+        updateHeight(root);
+        return rebalance(root);
+    }
+
+    public int successor(TreeNode root) {
+        root = root.left;
+        while (root.right != null) {
+            root = root.right;
+        }
+        return root.value;
+    }
+
+    public int predecessor(TreeNode root) {
+        root = root.right;
+        while (root.left != null) {
+            root = root.left;
+        }
+        return root.value;
+    }
+
+    public TreeNode rebalance(TreeNode node) {
         int balancedFactor = getBalancedFactor(node);
-        if (balancedFactor > 1 && node.left.value > key) { //LL型
+        if (balancedFactor > 1 && height(node.left.left) >= height(node.left.right)) { //LL型
             return rightRotation(node);
-        } else if (balancedFactor < -1 && node.right.value < key) { //RR型
+        } else if (balancedFactor < -1 && height(node.right.left) <= height(node.right.right)) { //RR型
             return leftRotation(node);
-        } else if (balancedFactor > 1 && node.left.value < key) { //LR型
+        } else if (balancedFactor > 1 && height(node.left.left) < height(node.left.right)) { //LR型
             node.left = leftRotation(node.left);
             return rightRotation(node);
-        } else if (balancedFactor < -1 && node.right.value > key) { //RL型
+        } else if (balancedFactor < -1 && height(node.right.left) > height(node.right.right)) { //RL型
             node.right = rightRotation(node.right);
             return leftRotation(node);
         }
