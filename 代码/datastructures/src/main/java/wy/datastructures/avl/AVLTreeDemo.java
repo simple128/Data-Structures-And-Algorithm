@@ -37,7 +37,7 @@ public class AVLTreeDemo {
             root.value = key;
         }
         updateHeight(root);
-        return rebalance(root);
+        return rebalanced(root);
     }
 
     public TreeNode remove(TreeNode root, int key) {
@@ -59,7 +59,7 @@ public class AVLTreeDemo {
             }
         }
         updateHeight(root);
-        return rebalance(root);
+        return rebalanced(root);
     }
 
     public int successor(TreeNode root) {
@@ -78,7 +78,7 @@ public class AVLTreeDemo {
         return root.value;
     }
 
-    public TreeNode rebalance(TreeNode node) {
+    public TreeNode rebalanced(TreeNode node) {
         int balancedFactor = getBalancedFactor(node);
         if (balancedFactor > 1 && height(node.left.left) >= height(node.left.right)) { //LL型
             return rightRotation(node);
