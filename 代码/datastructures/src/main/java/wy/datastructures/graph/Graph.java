@@ -1,10 +1,14 @@
 package wy.datastructures.graph;
 
+import javax.management.QueryEval;
+import javax.swing.tree.TreeNode;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Graph {
+
 
     private int[][] edges;
     private List<String> vertexList;
@@ -20,7 +24,7 @@ public class Graph {
         //创建图对象
         Graph graph = new Graph(n);
         //循环的添加顶点
-        for(String vertex: Vertexs) {
+        for (String vertex : Vertexs) {
             graph.insertVertex(vertex);
         }
 
@@ -44,16 +48,15 @@ public class Graph {
         graph.insertEdge(5, 6, 1);
 
 
-
         //显示一把邻结矩阵
         graph.showGraph();
 
-//        //测试一把，我们的dfs遍历是否ok
-//        System.out.println("深度遍历");
-       graph.dfs(); // A->B->C->D->E [1->2->4->8->5->3->6->7]
-////		System.out.println();
-//        System.out.println("广度优先!");
-//        graph.bfs(); // A->B->C->D-E [1->2->3->4->5->6->7->8]
+        //测试一把，我们的dfs遍历是否ok
+        System.out.println("深度遍历");
+        graph.dfs(); // A->B->C->D->E [1->2->4->8->5->3->6->7]
+        System.out.println();
+        System.out.println("广度优先!");
+        graph.bfs(); // A->B->C->D-E [1->2->3->4->5->6->7->8]
     }
 
     public void dfs(int index) {
@@ -71,6 +74,38 @@ public class Graph {
         isVisited = new boolean[vertexList.size()];
         dfs(0);
     }
+
+    public void bfs() {
+        int count = 0;
+        isVisited = new boolean[vertexList.size()];
+        LinkedList<Integer> queue = new LinkedList<>();
+        for (int x = 0; x < getNumOfVertex(); x++) {
+            if (!isVisited[x]) {
+                isVisited[x] = true;
+                System.out.print(getVertex(x) + "->");
+                queue.addLast(x);
+                while (!queue.isEmpty()) {
+                    int index = queue.removeFirst();
+                    for (int y = 0; y < getNumOfVertex(); y++) {
+                        //System.out.println(count++);
+                        if (edges[index][y] == 1 && !isVisited[y]) {
+                            isVisited[y] = true;
+                            queue.addLast(y);
+                            System.out.print(getVertex(y) + "->");
+                        }
+                    }
+                }
+            }
+        }
+    }
+//    [0, 1, 1, 0, 0, 0, 0, 0]
+//    [1, 0, 0, 1, 1, 0, 0, 0]
+//    [1, 0, 0, 0, 0, 1, 1, 0]
+//    [0, 1, 0, 0, 0, 0, 0, 1]
+//    [0, 1, 0, 0, 0, 0, 0, 1]
+//    [0, 0, 1, 0, 0, 0, 1, 0]
+//    [0, 0, 1, 0, 0, 1, 0, 0]
+//    [0, 0, 0, 1, 1, 0, 0, 0]
 
     public Graph(int n) {
         edges = new int[n][n];
@@ -91,6 +126,9 @@ public class Graph {
         return vertexList.get(index);
     }
 
+    public int getIndexOfVertex(String vertex) {
+        return vertexList.indexOf(vertex);
+    }
 
     public int getEdge(int v1, int v2) {
         return edges[v1][v2];
@@ -107,7 +145,7 @@ public class Graph {
     }
 
     public void showGraph() {
-        for(int[] link : edges) {
+        for (int[] link : edges) {
             System.out.println(Arrays.toString(link));
         }
     }
