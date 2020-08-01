@@ -1,14 +1,11 @@
 package wy.datastructures.graph;
 
-import javax.management.QueryEval;
-import javax.swing.tree.TreeNode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Graph {
-
 
     private int[][] edges;
     private List<String> vertexList;
@@ -18,7 +15,6 @@ public class Graph {
     public static void main(String[] args) {
         //测试一把图是否创建ok
         int n = 8;  //结点的个数
-        //String Vertexs[] = {"A", "B", "C", "D", "E"};
         String Vertexs[] = {"1", "2", "3", "4", "5", "6", "7", "8"};
 
         //创建图对象
@@ -27,14 +23,6 @@ public class Graph {
         for (String vertex : Vertexs) {
             graph.insertVertex(vertex);
         }
-
-        //添加边
-        //A-B A-C B-C B-D B-E
-//		graph.insertEdge(0, 1, 1); // A-B
-//		graph.insertEdge(0, 2, 1); //
-//		graph.insertEdge(1, 2, 1); //
-//		graph.insertEdge(1, 3, 1); //
-//		graph.insertEdge(1, 4, 1); //
 
         //更新边的关系
         graph.insertEdge(0, 1, 1);
@@ -69,14 +57,12 @@ public class Graph {
         }
     }
 
-
     public void dfs() {
         isVisited = new boolean[vertexList.size()];
         dfs(0);
     }
 
     public void bfs() {
-        int count = 0;
         isVisited = new boolean[vertexList.size()];
         LinkedList<Integer> queue = new LinkedList<>();
         for (int x = 0; x < getNumOfVertex(); x++) {
@@ -87,7 +73,6 @@ public class Graph {
                 while (!queue.isEmpty()) {
                     int index = queue.removeFirst();
                     for (int y = 0; y < getNumOfVertex(); y++) {
-                        //System.out.println(count++);
                         if (edges[index][y] == 1 && !isVisited[y]) {
                             isVisited[y] = true;
                             queue.addLast(y);
@@ -98,14 +83,6 @@ public class Graph {
             }
         }
     }
-//    [0, 1, 1, 0, 0, 0, 0, 0]
-//    [1, 0, 0, 1, 1, 0, 0, 0]
-//    [1, 0, 0, 0, 0, 1, 1, 0]
-//    [0, 1, 0, 0, 0, 0, 0, 1]
-//    [0, 1, 0, 0, 0, 0, 0, 1]
-//    [0, 0, 1, 0, 0, 0, 1, 0]
-//    [0, 0, 1, 0, 0, 1, 0, 0]
-//    [0, 0, 0, 1, 1, 0, 0, 0]
 
     public Graph(int n) {
         edges = new int[n][n];
