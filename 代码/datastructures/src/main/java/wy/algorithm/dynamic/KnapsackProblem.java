@@ -63,6 +63,7 @@ public class KnapsackProblem {
                 if (weight[i - 1] > j) {
                     res[i][j] = res[i - 1][j];
                 } else {
+                    // 后者的情况可以记录path
                     res[i][j] = Math.max(res[i - 1][j], val[i - 1] + res[i - 1][j - weight[i - 1]]);
                 }
             }
